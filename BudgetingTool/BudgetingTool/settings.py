@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
-from pw.py import pw
+#from pw.py import pw
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'api.apps.ApiConfig',
-    'rest_framework'
+    'rest_framework',
+    'frontend.apps.FrontendConfig'
 ]
 
 MIDDLEWARE = [
@@ -79,9 +80,9 @@ WSGI_APPLICATION = 'BudgetingTool.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'Budgeting_Tool_DB',
+        'NAME': 'Budgeting_Tool',
         'USER': 'admin',
-        'PASSWORD': pw,
+        'PASSWORD': '2Rx7f8RwMn',
         'HOST': 'budgeting-tool-db.cd7wgmdfoskl.us-east-2.rds.amazonaws.com',
         'PORT': '3306',
     }
