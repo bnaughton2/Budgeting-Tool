@@ -38,6 +38,6 @@ class CreateUserView(APIView):
             password = serializer.data.get('password')
 
             user = User(email=email, password=password)
-            income.save()
+            user.save()
             return Response({"User Created": "User has been created"}, status=status.HTTP_201_CREATED)
-        return Response({'Bad Request': 'Invalid data...'}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'Bad Request': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)

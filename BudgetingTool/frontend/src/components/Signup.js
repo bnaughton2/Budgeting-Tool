@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import {TextField, Button, Grid, Typography, RadioGroup, FormControlLabel, Checkbox, FormControl } from "@material-ui/core";
 import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions} from "@material-ui/core";
 
-function Login(){
-    const [email, setEmail] = useState();
-    const [password, setPassword] = useState();
+function Signup(){
+    const [email, setEmail] = React.useState("");
+    const [password, setPassword] = React.useState("");
 
       const handleClick = () => {
         const requestOptions = {
@@ -19,19 +19,19 @@ function Login(){
         fetch('/api/create-user', requestOptions).then((response) => 
         response.json()
         ).then( (data) => console.log(data));
-        setOpen(false);
       };
 
       const handleEmail = (event) => {
-        setEmail(event.target.email);
+        setEmail(event.target.value);
       };
 
       const handlePassword = (event) => {
-        setPassword(event.target.password);
+        setPassword(event.target.value);
       };
 
     return(
         <Grid container spacing={1} align="center">
+            
             <Grid item xs={12}>
               <TextField
                             autoFocus
@@ -56,11 +56,12 @@ function Login(){
                             variant="standard"
                         />
               </Grid>
-              <Grid item xs={12}><Button variant="contained" color="primary" onClick={handleClick}>Login</Button></Grid>
+              <Grid item xs={12}><Button variant="contained" color="primary" onClick={handleClick}>Signup</Button></Grid>
+            
               
         </Grid>
     );
 
 }
 
-export default Login;
+export default Signup;
