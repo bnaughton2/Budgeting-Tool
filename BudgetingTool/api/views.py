@@ -4,7 +4,7 @@ from rest_framework import generics, status
 from .models import Income, User
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .serializers import IncomeSerializer, CreateIncomeSerializer
+from .serializers import IncomeSerializer, CreateIncomeSerializer, CreateUserSerializer
 
 # Create your views here.
 class IncomeView(generics.ListAPIView):
@@ -23,7 +23,21 @@ class CreateIncomeView(APIView):
             userId = serializer.data.get('userId')
             user = User.objects.filter(userId=userId)
             
-            income = Income(income=income, amount=amount, isRecurring=isRecurring, userId=user)
+            income = Income(income=income, amount=amount, isRecurring=isRecurring, userId=user[0])
             income.save()
             return Response(IncomeSerializer(income).data, status=status.HTTP_201_CREATED)
+        return Response({'Bad Request': 'Invalid data...'}, status=status.HTTP_400_BAD_REQUEST)
+
+class CreateUserView(APIView):
+    serializerClass = CreateUserSerializer
+
+    def post(self, request, format=None):
+        serializer = self.serializerClass(data=request.data)
+        if serializer.is_valid():
+            email = serializer.data.get('email')
+            password = serializer.data.get('password')
+
+            user = User(email=email, password=password)
+            income.save()
+            return Response({"User Created": "User has been created"}, status=status.HTTP_201_CREATED)
         return Response({'Bad Request': 'Invalid data...'}, status=status.HTTP_400_BAD_REQUEST)

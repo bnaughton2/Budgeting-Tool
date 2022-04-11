@@ -7,11 +7,14 @@ function Income(){
     const [isChecked, setChecked] = useState(true);
     const [income, setIncome] = useState("");
     const [amount, setAmount] = useState("");
-    const handleClickOpen = () => {
+    const handleClickClose = () => {
+        setOpen(false);
+      };
+      const handleClickOpen = () => {
         setOpen(true);
       };
     
-      const handleClose = () => {
+      const handleSubmit = () => {
         const requestOptions = {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
@@ -45,7 +48,7 @@ function Income(){
         <Grid container spacing={1} align="center">
             <Grid item xs={12}>
                   <Button variant="contained" color="primary" onClick={handleClickOpen}>Add an Income</Button>
-                  <Dialog open={isOpen} onClose={handleClose}>
+                  <Dialog open={isOpen} onClose={handleClickClose}>
                         <DialogTitle>Add Income</DialogTitle>
                         <DialogContent>
                         <DialogContentText>
@@ -76,8 +79,8 @@ function Income(){
                              label="Is Income Recurring?" labelPlacement="bottom"/>
                         </DialogContent>
                         <DialogActions>
-                        <Button onClick={handleClose}>Cancel</Button>
-                        <Button onClick={handleClose}>Submit</Button>
+                        <Button onClick={handleClickClose}>Cancel</Button>
+                        <Button onClick={handleSubmit}>Submit</Button>
                         </DialogActions>
                     </Dialog>
               </Grid>
