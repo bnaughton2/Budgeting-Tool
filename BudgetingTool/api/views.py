@@ -33,11 +33,23 @@ class CreateUserView(APIView):
 
     def post(self, request, format=None):
         serializer = self.serializerClass(data=request.data)
+
+        if not self.request.session.exists(self.request.session.session_key):
+            self.request.session.create()
+
         if serializer.is_valid():
             email = serializer.data.get('email')
             password = serializer.data.get('password')
 
             user = User(email=email, password=password)
             user.save()
+            self.request.session['userId'] = user.userId
             return Response({"User Created": "User has been created"}, status=status.HTTP_201_CREATED)
         return Response({'Bad Request': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+
+class LoginView(APIView):
+    serializerClass = CreateUserSerializer
+
+    def post(self, request, format=None):
+        if not self.request.session.exists(self.request.session.session_key):
+            self.request.session.create()
