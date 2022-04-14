@@ -8,6 +8,7 @@ class User(models.Model):
     email = models.EmailField(null=False, unique=True)
     password = models.CharField(max_length=255, null=False)
     createdOn = models.DateTimeField(auto_now_add=True)
+    isLoggedIn = models.BooleanField(null=False, default=False)
 
 class Income(models.Model):
     incomeId = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)

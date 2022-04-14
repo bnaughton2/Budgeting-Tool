@@ -1,10 +1,12 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router";
 import {TextField, Button, Grid, Typography, RadioGroup, FormControlLabel, Checkbox, FormControl } from "@material-ui/core";
 import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions} from "@material-ui/core";
 
 function Login(){
-    const [email, setEmail] = useState();
-    const [password, setPassword] = useState();
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    let navigate = useNavigate();
 
       const handleClick = () => {
         const requestOptions = {
@@ -16,18 +18,25 @@ function Login(){
             })
         };
         
-        fetch('/api/create-user', requestOptions).then((response) => 
-        response.json()
-        ).then( (data) => console.log(data));
-        setOpen(false);
+        fetch('/api/login', requestOptions).then((response) => {
+            if(response.ok){
+              navigate('/income')
+
+            } else{
+                
+            }
+        }).catch((error) => {
+          console.log(error);
+        });
+  
       };
 
       const handleEmail = (event) => {
-        setEmail(event.target.email);
+        setEmail(event.target.value);
       };
 
       const handlePassword = (event) => {
-        setPassword(event.target.password);
+        setPassword(event.target.value);
       };
 
     return(
