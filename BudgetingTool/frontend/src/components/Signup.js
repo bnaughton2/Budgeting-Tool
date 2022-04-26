@@ -16,9 +16,16 @@ function Signup(){
             })
         };
         
-        fetch('/api/create-user', requestOptions).then((response) => 
-        response.json()
-        ).then( (data) => console.log(data));
+        fetch('/api/create-user', requestOptions).then((response) => {
+          if(response.ok){
+            navigate('/income')
+
+          } else{
+              
+          }
+      }).catch((error) => {
+        console.log(error);
+      });
       };
 
       const handleEmail = (event) => {

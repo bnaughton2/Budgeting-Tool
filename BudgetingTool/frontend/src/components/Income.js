@@ -1,13 +1,43 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {TextField, Button, Grid, Typography, RadioGroup, FormControlLabel, Checkbox } from "@material-ui/core";
 import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions} from "@material-ui/core";
+import { DataGrid } from '@mui/x-data-grid';
 
 function Income(){
+  useEffect(() => {
+    fetchData();
+  });
+    const fetched = true;
     const [isOpen, setOpen] = React.useState(false);
     const [isChecked, setChecked] = useState(true);
     const [income, setIncome] = useState("");
     const [amount, setAmount] = useState("");
+    const [columns, setColums] = useState([
+      { field: 'incomeId', headerName: 'ID', width: 1, hide:true },
+      { field: 'income', headerName: 'Income', width: 250 },
+      { field: 'amount', headerName: 'Amount', width: 150 },
+      { field: 'isRecurring', headerName: 'Recurs Monthly', width: 150 },
+      { field: 'date', headerName: 'Date', width: 150 }
+    ]);
+    const [rows, setRows] = useState([]);
+    
+
+    const fetchData = () => {
+      fetch('/api/get-incomes').then((response) => 
+        response.json()
+        ).then((data) => {
+          setRows(data);
+        });
+      // if (!fetched){
+        
+      //   fetched = true;
+      // }
+    };
+
     const handleClickClose = () => {
+        setIncome("");
+        setAmount("");
+        setChecked(true);
         setOpen(false);
       };
       const handleClickOpen = () => {
@@ -29,7 +59,11 @@ function Income(){
         fetch('/api/create-income', requestOptions).then((response) => 
         response.json()
         ).then( (data) => console.log(data));
+        setIncome("");
+        setAmount("");
+        setChecked(true);
         setOpen(false);
+        fetched = false;
       };
 
       const handleChecked = (event) => {
@@ -83,6 +117,19 @@ function Income(){
                         <Button onClick={handleSubmit}>Submit</Button>
                         </DialogActions>
                     </Dialog>
+              </Grid>
+              <Grid item xs={12}>
+              <div style={{ height: 400, width: 800 }}>
+              <DataGrid
+                rows={rows}
+                columns={columns}
+                pageSize={10}
+                rowsPerPageOptions={[10]}
+                checkboxSelection
+                getRowId={(row) => row.incomeId}
+                id="incomeId"
+                />
+                </div>
               </Grid>
         </Grid>
     );
