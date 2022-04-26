@@ -5,6 +5,11 @@ class IncomeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Income
         fields = ('incomeId', 'income', 'amount', 'isRecurring', 'date', 'userId')
+    
+class DisplayIncomeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Income
+        fields = ('incomeId', 'income', 'amount', 'isRecurring', 'date')
 
 class CreateIncomeSerializer(serializers.ModelSerializer):
     class Meta:
