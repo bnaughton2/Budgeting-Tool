@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Income, User
+from .models import Income, User, Bill, Goal
 
 class IncomeSerializer(serializers.ModelSerializer):
     class Meta:
@@ -14,7 +14,12 @@ class DisplayIncomeSerializer(serializers.ModelSerializer):
 class CreateIncomeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Income
-        fields = ('income', 'amount', 'isRecurring', 'userId')
+        fields = ('income', 'amount', 'isRecurring')
+
+class CreateBillSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Bill
+        fields = ('bill', 'amount', 'isRecurring', 'dueDate')
 
 class CreateUserSerializer(serializers.ModelSerializer):
     class Meta:

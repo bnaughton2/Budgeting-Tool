@@ -2,12 +2,9 @@ import React, { useState, useEffect } from "react";
 import {TextField, Button, Grid, Typography, RadioGroup, FormControlLabel, Checkbox } from "@material-ui/core";
 import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions} from "@material-ui/core";
 import { DataGrid } from '@mui/x-data-grid';
+import { borderColor } from "@mui/system";
 
 function Income(){
-  useEffect(() => {
-    fetchData();
-  });
-    const fetched = true;
     const [isOpen, setOpen] = React.useState(false);
     const [isChecked, setChecked] = useState(true);
     const [income, setIncome] = useState("");
@@ -21,18 +18,17 @@ function Income(){
     ]);
     const [rows, setRows] = useState([]);
     
-
     const fetchData = () => {
       fetch('/api/get-incomes').then((response) => 
         response.json()
         ).then((data) => {
           setRows(data);
         });
-      // if (!fetched){
-        
-      //   fetched = true;
-      // }
     };
+
+    useEffect(() => {
+      fetchData();
+    }, []);
 
     const handleClickClose = () => {
         setIncome("");
@@ -51,8 +47,7 @@ function Income(){
             body: JSON.stringify({
                 income: income,
                 amount: amount,
-                isRecurring: isChecked,
-                userId: 'bef29f21ab5548468fb2cd73357fecf6'
+                isRecurring: isChecked
             })
         };
         
@@ -63,7 +58,11 @@ function Income(){
         setAmount("");
         setChecked(true);
         setOpen(false);
-        fetched = false;
+        fetch('/api/get-incomes').then((response) => 
+        response.json()
+        ).then((data) => {
+          setRows(data);
+        });
       };
 
       const handleChecked = (event) => {
@@ -125,9 +124,26 @@ function Income(){
                 columns={columns}
                 pageSize={10}
                 rowsPerPageOptions={[10]}
-                checkboxSelection
                 getRowId={(row) => row.incomeId}
                 id="incomeId"
+                sx={
+                  {
+                    "& 	.MuiDataGrid-virtualScrollerContent": {
+                      backgroundColor: "rgba(235, 235, 235, .7)"
+                    },
+                    "& .MuiDataGrid-columnHeaders": {
+                      backgroundColor: "rgba(235, 235, 235, .7)",
+                      borderColor: "10px solid black",
+                      fontSize: 16
+                    },
+                    "& .MuiDataGrid-footerContainer": {
+                      backgroundColor: "rgba(235, 235, 235, .7)",
+                    },
+                    "& 	.MuiDataGrid-row": {
+                      borderColor: "10px solid black",
+                    },
+                  }		
+                }
                 />
                 </div>
               </Grid>

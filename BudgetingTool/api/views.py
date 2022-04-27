@@ -12,13 +12,13 @@ class IncomeView(generics.ListAPIView):
     queryset = Income.objects.all()
     serializer_class = IncomeSerializer
 
-class GetAllIncomesView(APIView):
+class GetUserIncomesView(APIView):
     serializerClass = DisplayIncomeSerializer
 
     def get(self, request, format=None):
         userId = request.session.get('userId')
         if userId != None:
-            incomes = Income.objects.all()
+            incomes = Income.objects.filter(userId=userId)
             data = IncomeSerializer(incomes, many=True).data
             return Response(data, status=status.HTTP_200_OK)
         return Response({'Bad Request': 'Not logged in...'}, status=status.HTTP_400_BAD_REQUEST)
@@ -41,7 +41,7 @@ class CreateIncomeView(APIView):
                 income.save()
                 return Response(IncomeSerializer(income).data, status=status.HTTP_201_CREATED)
             return Response({'Bad Request': 'Not logged in...'}, status=status.HTTP_400_BAD_REQUEST)
-        return Response({'Bad Request': request.session.get('userId')}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'Bad Request': 'Bad Data...'}, status=status.HTTP_400_BAD_REQUEST)
         
         
 

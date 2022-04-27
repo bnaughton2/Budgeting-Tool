@@ -1,5 +1,6 @@
 from django.db import models
 import uuid
+import datetime
 
 # Create your models here.
 
@@ -14,5 +15,22 @@ class Income(models.Model):
     income = models.TextField(null=False)
     amount = models.DecimalField(null=False, max_digits=15, decimal_places=2)
     isRecurring = models.BooleanField(null=False, default=False)
-    date = models.DateTimeField(auto_now_add=True)
+    date = models.DateTimeField(default=datetime.date.today)
+    userId = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+
+class Bill(models.Model):
+    billId = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    bill = models.TextField(null=False)
+    amount = models.DecimalField(null=False, max_digits=15, decimal_places=2)
+    isRecurring = models.BooleanField(null=False, default=False)
+    dueDate = models.DateTimeField(auto_now_add=True)
+    userId = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+
+class Goal(models.Model):
+    goalId = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    goal = models.TextField(null=False)
+    amount = models.DecimalField(null=False, max_digits=15, decimal_places=2)
+    isRecurring = models.BooleanField(null=False, default=False)
+    startDate = models.DateTimeField(auto_now_add=True)
+    endDate = models.DateTimeField(auto_now_add=True)
     userId = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
