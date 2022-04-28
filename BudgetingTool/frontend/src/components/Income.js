@@ -53,16 +53,20 @@ function Income(){
         
         fetch('/api/create-income', requestOptions).then((response) => 
         response.json()
-        ).then( (data) => console.log(data));
-        setIncome("");
-        setAmount("");
-        setChecked(true);
-        setOpen(false);
-        fetch('/api/get-incomes').then((response) => 
+        ).then( (data) => {
+          console.log(data)
+          fetch('/api/get-incomes').then((response) => 
         response.json()
         ).then((data) => {
           setRows(data);
         });
+        });
+        setIncome("");
+        setAmount("");
+        setChecked(true);
+        setOpen(false);
+        
+        
       };
 
       const handleChecked = (event) => {

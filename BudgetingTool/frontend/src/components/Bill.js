@@ -1,8 +1,14 @@
 import React, { useState, useEffect } from "react";
 import {TextField, Button, Grid, Typography, RadioGroup, FormControlLabel, Checkbox } from "@material-ui/core";
 import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions} from "@material-ui/core";
+import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+import { DatePicker } from "@material-ui/pickers";
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import moment from 'moment';
+import DateFnsUtils from "@date-io/date-fns";
 import { DataGrid } from '@mui/x-data-grid';
 import { borderColor } from "@mui/system";
+import { alpha } from '@material-ui/core/styles';
 
 function Bill(){('bill', 'amount', 'isRecurring', 'dueDate')
     const [isOpen, setOpen] = React.useState(false);
@@ -11,16 +17,16 @@ function Bill(){('bill', 'amount', 'isRecurring', 'dueDate')
     const [amount, setAmount] = useState("");
     const [dueDate, setDueDate] = useState(new Date());
     const [columns, setColums] = useState([
-      { field: 'incomeId', headerName: 'ID', width: 1, hide:true },
-      { field: 'income', headerName: 'Income', width: 250 },
+      { field: 'billId', headerName: 'ID', width: 1, hide:true },
+      { field: 'bill', headerName: 'Bill', width: 250 },
       { field: 'amount', headerName: 'Amount', width: 150 },
       { field: 'isRecurring', headerName: 'Recurs Monthly', width: 150 },
-      { field: 'date', headerName: 'Date', width: 150 }
+      { field: 'dueDate', headerName: 'Due Date', width: 150 }
     ]);
     const [rows, setRows] = useState([]);
     
     const fetchData = () => {
-      fetch('/api/get-incomes').then((response) => 
+      fetch('/api/get-bills').then((response) => 
         response.json()
         ).then((data) => {
           setRows(data);
@@ -32,7 +38,7 @@ function Bill(){('bill', 'amount', 'isRecurring', 'dueDate')
     }, []);
 
     const handleClickClose = () => {
-        setIncome("");
+        setBill("");
         setAmount("");
         setChecked(true);
         setOpen(false);
@@ -46,56 +52,64 @@ function Bill(){('bill', 'amount', 'isRecurring', 'dueDate')
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
-                income: income,
+                bill: bill,
                 amount: amount,
-                isRecurring: isChecked
+                isRecurring: isChecked,
+                dueDate: moment(dueDate).format('YYYY-MM-DD')
             })
         };
         
-        fetch('/api/create-income', requestOptions).then((response) => 
+        fetch('/api/create-bill', requestOptions).then((response) => 
         response.json()
-        ).then( (data) => console.log(data));
-        setIncome("");
+        ).then( (data) => {
+          console.log(data)
+          fetch('/api/get-bills').then((response) => 
+          response.json()
+          ).then((data) => {
+            setRows(data);
+          });
+        });
+        setBill("");
         setAmount("");
         setChecked(true);
         setOpen(false);
-        fetch('/api/get-incomes').then((response) => 
-        response.json()
-        ).then((data) => {
-          setRows(data);
-        });
+        
       };
 
       const handleChecked = (event) => {
         setChecked(event.target.checked);
       };
 
-      const handleIncome = (event) => {
-        setIncome(event.target.value);
+      const handleBill = (event) => {
+        setBill(event.target.value);
       };
 
       const handleAmount = (event) => {
         setAmount(event.target.value);
       };
 
+      const handleDate = (event) => {
+        setDueDate(event.target.value);
+      };
+
     return(
         <Grid container spacing={1} align="center">
             <Grid item xs={12}>
-                  <Button variant="contained" color="primary" onClick={handleClickOpen}>Add an Income</Button>
+                  <Button variant="contained" color="primary" onClick={handleClickOpen}>Add a Bill</Button>
                   <Dialog open={isOpen} onClose={handleClickClose}>
-                        <DialogTitle>Add Income</DialogTitle>
+                        <DialogTitle>Add Bill</DialogTitle>
                         <DialogContent>
                         <DialogContentText>
-                            Add a new income to your account.
+                            Add a new bill to your account.
                         </DialogContentText>
                         <TextField
                             autoFocus
                             margin="dense"
-                            id="income"
-                            label="Income"
+                            id="bill"
+                            label="Bill"
                             type="text"
-                            value={income}
-                            onChange={handleIncome}
+                            value={bill}
+                            onChange={handleBill}
                             fullWidth
                             variant="standard"
                         />
@@ -110,7 +124,17 @@ function Bill(){('bill', 'amount', 'isRecurring', 'dueDate')
                             variant="standard"
                         />
                         <FormControlLabel control={<Checkbox  checked={isChecked} onChange={handleChecked} color="primary"/>}
-                             label="Is Income Recurring?" labelPlacement="bottom"/>
+                             label="Is Bill Recurring?" labelPlacement="bottom"/>
+                             
+                             <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                              <DatePicker
+                               label="Basic example"
+                               value={dueDate}
+                               onChange={(newValue) => {
+                                setDueDate(newValue);
+                              }}
+                               />
+                            </MuiPickersUtilsProvider>
                         </DialogContent>
                         <DialogActions>
                         <Button onClick={handleClickClose}>Cancel</Button>
@@ -125,8 +149,8 @@ function Bill(){('bill', 'amount', 'isRecurring', 'dueDate')
                 columns={columns}
                 pageSize={10}
                 rowsPerPageOptions={[10]}
-                getRowId={(row) => row.incomeId}
-                id="incomeId"
+                getRowId={(row) => row.billId}
+                id="billId"
                 sx={
                   {
                     "& 	.MuiDataGrid-virtualScrollerContent": {
@@ -153,4 +177,4 @@ function Bill(){('bill', 'amount', 'isRecurring', 'dueDate')
 
 }
 
-export default Income;
+export default Bill;

@@ -20,7 +20,7 @@ function Login(){
         
         fetch('/api/login', requestOptions).then((response) => {
             if(response.ok){
-              navigate('/income')
+              navigate('/income');
 
             } else{
                 

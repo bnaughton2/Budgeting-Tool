@@ -20,6 +20,11 @@ class CreateBillSerializer(serializers.ModelSerializer):
     class Meta:
         model = Bill
         fields = ('bill', 'amount', 'isRecurring', 'dueDate')
+        
+class DisplayBillSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Bill
+        fields = ('billId', 'bill', 'amount', 'isRecurring', 'dueDate')
 
 class CreateUserSerializer(serializers.ModelSerializer):
     class Meta:

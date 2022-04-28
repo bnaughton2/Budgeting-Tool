@@ -8,14 +8,14 @@ class User(models.Model):
     userId = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     email = models.EmailField(null=False, unique=True)
     password = models.CharField(max_length=255, null=False)
-    createdOn = models.DateTimeField(auto_now_add=True)
+    createdOn = models.DateField(default=datetime.date.today)
 
 class Income(models.Model):
     incomeId = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     income = models.TextField(null=False)
     amount = models.DecimalField(null=False, max_digits=15, decimal_places=2)
     isRecurring = models.BooleanField(null=False, default=False)
-    date = models.DateTimeField(default=datetime.date.today)
+    date = models.DateField(default=datetime.date.today)
     userId = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
 class Bill(models.Model):
@@ -23,7 +23,7 @@ class Bill(models.Model):
     bill = models.TextField(null=False)
     amount = models.DecimalField(null=False, max_digits=15, decimal_places=2)
     isRecurring = models.BooleanField(null=False, default=False)
-    dueDate = models.DateTimeField(auto_now_add=True)
+    dueDate = models.DateField(default=datetime.date.today)
     userId = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
 class Goal(models.Model):
@@ -31,6 +31,6 @@ class Goal(models.Model):
     goal = models.TextField(null=False)
     amount = models.DecimalField(null=False, max_digits=15, decimal_places=2)
     isRecurring = models.BooleanField(null=False, default=False)
-    startDate = models.DateTimeField(auto_now_add=True)
-    endDate = models.DateTimeField(auto_now_add=True)
+    startDate = models.DateField(default=datetime.date.today)
+    endDate = models.DateField(default=datetime.date.today)
     userId = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
