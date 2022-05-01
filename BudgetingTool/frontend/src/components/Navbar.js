@@ -24,9 +24,9 @@ const useStyles = makeStyles((theme) => ({
 // Exporting Default Navbar to the App.js File
 export default function Navbar() {
     const classes = useStyles();
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
     const handleIncome = (event) => {
-        navigate('/income');
+    //     navigate('/income');
       };
   
   return (

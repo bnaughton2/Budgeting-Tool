@@ -5,6 +5,7 @@ from .models import Income, User, Bill, Goal
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .serializers import IncomeSerializer, CreateIncomeSerializer, CreateUserSerializer, DisplayIncomeSerializer, DisplayBillSerializer, CreateBillSerializer
+from .serializers import DisplayGoalSerializer, CreateGoalSerializer
 import hashlib
 
 # Create your views here.
@@ -34,6 +35,39 @@ class GetUserBillsView(APIView):
             return Response(data, status=status.HTTP_200_OK)
         return Response({'Bad Request': 'Not logged in...'}, status=status.HTTP_400_BAD_REQUEST)
 
+class GetUserGoalsView(APIView):
+    serializerClass = DisplayGoalSerializer
+
+    def get(self, request, format=None):
+        userId = request.session.get('userId')
+        if userId != None:
+            goals = Goal.objects.filter(userId=userId)
+            data = DisplayGoalSerializer(goals, many=True).data
+            return Response(data, status=status.HTTP_200_OK)
+        return Response({'Bad Request': 'Not logged in...'}, status=status.HTTP_400_BAD_REQUEST)
+
+class CreateGoalView(APIView):
+    serializerClass = CreateGoalSerializer
+
+    def post(self, request, format=None):
+        serializer = self.serializerClass(data=request.data)
+        
+        if serializer.is_valid():
+            goal = serializer.data.get('goal')
+            amount = serializer.data.get('amount')
+            isRecurring = serializer.data.get('isRecurring')
+            startDate = serializer.data.get('startDate')
+            endDate = serializer.data.get('startDate')
+            userId = request.session.get('userId')
+            if userId != None:
+                user = User.objects.filter(userId=userId)
+
+                goal = Goal(goal=goal, amount=amount, isRecurring=isRecurring, startDate=startDate, endDate=endDate, userId=user[0])
+                goal.save()
+                return Response(CreateGoalSerializer(goal).data, status=status.HTTP_201_CREATED)
+            return Response({'Bad Request': 'Not logged in...'}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'Bad Request': 'Bad Data...'}, status=status.HTTP_400_BAD_REQUEST)
+
 
 class CreateBillView(APIView):
     serializerClass = CreateBillSerializer
@@ -54,7 +88,7 @@ class CreateBillView(APIView):
                 bill.save()
                 return Response(CreateBillSerializer(bill).data, status=status.HTTP_201_CREATED)
             return Response({'Bad Request': 'Not logged in...'}, status=status.HTTP_400_BAD_REQUEST)
-        return Response({'Bad Request': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'Bad Request': 'Bad Data...'}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class CreateIncomeView(APIView):

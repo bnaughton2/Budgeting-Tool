@@ -16,6 +16,16 @@ class CreateIncomeSerializer(serializers.ModelSerializer):
         model = Income
         fields = ('income', 'amount', 'isRecurring')
 
+class DisplayGoalSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Goal
+        fields = ('goalId', 'goal', 'amount', 'isRecurring', 'startDate', 'endDate')
+
+class CreateGoalSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Goal
+        fields = ('goal', 'amount', 'isRecurring', 'startDate', 'endDate')
+
 class CreateBillSerializer(serializers.ModelSerializer):
     class Meta:
         model = Bill

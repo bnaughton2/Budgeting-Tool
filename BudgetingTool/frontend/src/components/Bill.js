@@ -10,7 +10,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import { borderColor } from "@mui/system";
 import { alpha } from '@material-ui/core/styles';
 
-function Bill(){('bill', 'amount', 'isRecurring', 'dueDate')
+function Bill(){
     const [isOpen, setOpen] = React.useState(false);
     const [isChecked, setChecked] = useState(true);
     const [bill, setBill] = useState("");

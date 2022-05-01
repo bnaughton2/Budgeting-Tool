@@ -5,19 +5,21 @@ import Login from "./Login";
 import Signup from "./Signup";
 import Bill from "./Bill";
 import Navbar from './Navbar';
+import Goal from './Goal';
 
 function Homepage(){
     return(
         <Router>
-            <div className="nav">
+            {/* <div className="nav">
                 <Navbar />
-            </div>
+            </div> */}
             <Routes>
                 <Route path='/' element={<p>Homepage</p>}></Route>
                 <Route path='/income' element={<Income />}></Route>
                 <Route path='/login' element={<Login />}></Route>
                 <Route path='/signup' element={<Signup />}></Route>
                 <Route path='/bill' element={<Bill />}></Route>
+                <Route path='/goal' element={<Goal />}></Route>
             </Routes>
         </Router>
     );

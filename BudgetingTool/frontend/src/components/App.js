@@ -11,7 +11,7 @@ function App(){
         return (
         <div>
             <div>
-                {/* <Navbar /> */}
+                <Navbar />
             </div>
             <div className="center">
                 {/* <Navbar /> */}
