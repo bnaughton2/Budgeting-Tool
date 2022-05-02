@@ -29,8 +29,9 @@ class Bill(models.Model):
 class Goal(models.Model):
     goalId = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     goal = models.TextField(null=False)
-    amount = models.DecimalField(null=False, max_digits=15, decimal_places=2)
-    isRecurring = models.BooleanField(null=False, default=False)
+    amountNeeded = models.DecimalField(null=False, max_digits=15, decimal_places=2)
+    monthlyAmount = models.DecimalField(null=False, max_digits=15, decimal_places=2)
+    completion = models.DecimalField(null=False, max_digits=4, decimal_places=2, default=0) 
     startDate = models.DateField(default=datetime.date.today)
     endDate = models.DateField(default=datetime.date.today)
     userId = models.ForeignKey(User, on_delete=models.CASCADE, null=True)

@@ -6,20 +6,22 @@ import Signup from "./Signup";
 import Bill from "./Bill";
 import Navbar from './Navbar';
 import Goal from './Goal';
+import Dashboard from './Dashboard';
 
 function Homepage(){
     return(
         <Router>
-            {/* <div className="nav">
+            <div className='nav'>
                 <Navbar />
-            </div> */}
+            </div>
             <Routes>
-                <Route path='/' element={<p>Homepage</p>}></Route>
-                <Route path='/income' element={<Income />}></Route>
-                <Route path='/login' element={<Login />}></Route>
-                <Route path='/signup' element={<Signup />}></Route>
-                <Route path='/bill' element={<Bill />}></Route>
-                <Route path='/goal' element={<Goal />}></Route>
+                <Route path='/' element={<div className='center'><p>Homepage</p></div>}></Route>
+                <Route path='/income' element={<div className='center'><Income /></div>}></Route>
+                <Route path='/login' element={<div className='center'><Login /></div>}></Route>
+                <Route path='/signup' element={<div className='center'><Signup /></div>}></Route>
+                <Route path='/bill' element={<div className='center'><Bill /></div>}></Route>
+                <Route path='/goal' element={<div className='center'><Goal /></div>}></Route>
+                <Route path='/dashboard' element={<div className='center'><Dashboard /></div>}></Route>
             </Routes>
         </Router>
     );

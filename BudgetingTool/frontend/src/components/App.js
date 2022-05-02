@@ -10,13 +10,7 @@ function App(){
 
         return (
         <div>
-            <div>
-                <Navbar />
-            </div>
-            <div className="center">
-                {/* <Navbar /> */}
-                <Homepage />
-            </div>
+            <Homepage />
         </div>
         );
 }

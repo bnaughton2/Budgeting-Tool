@@ -7,6 +7,8 @@ from rest_framework.response import Response
 from .serializers import IncomeSerializer, CreateIncomeSerializer, CreateUserSerializer, DisplayIncomeSerializer, DisplayBillSerializer, CreateBillSerializer
 from .serializers import DisplayGoalSerializer, CreateGoalSerializer
 import hashlib
+import datetime
+from datetime import date
 
 # Create your views here.
 class IncomeView(generics.ListAPIView):
@@ -42,6 +44,12 @@ class GetUserGoalsView(APIView):
         userId = request.session.get('userId')
         if userId != None:
             goals = Goal.objects.filter(userId=userId)
+            for goal in goals:
+                monthlyAmount = goal.__dict__['monthlyAmount']
+                amountNeeded = goal.__dict__['amountNeeded']
+                today = date.today()
+                numMonths = (today.year - goal.__dict__['startDate'].year) * 12 + (today.month - goal.__dict__['startDate'].month)
+                goal.__dict__['completion'] = round(((numMonths * monthlyAmount) / amountNeeded)  * 100)
             data = DisplayGoalSerializer(goals, many=True).data
             return Response(data, status=status.HTTP_200_OK)
         return Response({'Bad Request': 'Not logged in...'}, status=status.HTTP_400_BAD_REQUEST)
@@ -54,15 +62,15 @@ class CreateGoalView(APIView):
         
         if serializer.is_valid():
             goal = serializer.data.get('goal')
-            amount = serializer.data.get('amount')
-            isRecurring = serializer.data.get('isRecurring')
+            amountNeeded = serializer.data.get('amountNeeded')
+            monthlyAmount = serializer.data.get('monthlyAmount')
             startDate = serializer.data.get('startDate')
-            endDate = serializer.data.get('startDate')
+            endDate = serializer.data.get('endDate')
             userId = request.session.get('userId')
             if userId != None:
                 user = User.objects.filter(userId=userId)
 
-                goal = Goal(goal=goal, amount=amount, isRecurring=isRecurring, startDate=startDate, endDate=endDate, userId=user[0])
+                goal = Goal(goal=goal, monthlyAmount=monthlyAmount, amountNeeded=amountNeeded, startDate=startDate, endDate=endDate, userId=user[0])
                 goal.save()
                 return Response(CreateGoalSerializer(goal).data, status=status.HTTP_201_CREATED)
             return Response({'Bad Request': 'Not logged in...'}, status=status.HTTP_400_BAD_REQUEST)

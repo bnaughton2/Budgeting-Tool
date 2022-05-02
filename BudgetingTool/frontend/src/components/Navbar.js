@@ -9,7 +9,6 @@ import { Link } from '@mui/material';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import {TextField, Button, Grid, RadioGroup, FormControlLabel, Checkbox } from "@material-ui/core";
-import { ClassNames } from '@emotion/react';
   
 //Using Inline Styling
 const useStyles = makeStyles((theme) => ({
@@ -24,9 +23,24 @@ const useStyles = makeStyles((theme) => ({
 // Exporting Default Navbar to the App.js File
 export default function Navbar() {
     const classes = useStyles();
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
+      const handleDashboard = (event) => {
+        navigate('/dashboard');
+      };
     const handleIncome = (event) => {
-    //     navigate('/income');
+        navigate('/income');
+      };
+      const handleBills = (event) => {
+        navigate('/bill');
+      };
+      const handleGoals = (event) => {
+        navigate('/goal');
+      };
+      const handleLogin = (event) => {
+        navigate('/login');
+      };
+      const handleSignup = (event) => {
+        navigate('/signup');
       };
   
   return (
@@ -41,13 +55,14 @@ export default function Navbar() {
                             </Typography>
                         </Grid>
                         <Grid container item xs={6} justifyContent="center">
+                            <Button color="inherit" onClick={handleDashboard}>Dashboard</Button>
                             <Button color="inherit" onClick={handleIncome}>Incomes</Button>
-                            <Button color="inherit" >Bills</Button>
-                            <Button color="inherit" >Goals</Button>
+                            <Button color="inherit" onClick={handleBills}>Bills</Button>
+                            <Button color="inherit" onClick={handleGoals}>Goals</Button>
                         </Grid>
                         <Grid container item xs={3} justifyContent="flex-end">
-                            <Button color="inherit" >Login</Button>
-                            <Button color="inherit" >Signup</Button>
+                            <Button color="inherit" onClick={handleLogin}>Login</Button>
+                            <Button color="inherit" onClick={handleSignup}>Signup</Button>
                         </Grid>
                     </Grid>
 

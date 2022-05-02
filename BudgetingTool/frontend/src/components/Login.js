@@ -65,7 +65,7 @@ function Login(){
                             variant="standard"
                         />
               </Grid>
-              <Grid item xs={12}><Button variant="contained" color="primary" onClick={handleClick}>Login</Button></Grid>
+              <Grid item xs={12}><Button variant="contained" color="primary" type="submit" onClick={handleClick}>Login</Button></Grid>
               
         </Grid>
     );
