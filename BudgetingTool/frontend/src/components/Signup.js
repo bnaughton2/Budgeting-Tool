@@ -25,7 +25,7 @@ function Signup(){
         if(confirmPassword == password){
           fetch('/api/create-user', requestOptions).then((response) => {
             if(response.ok){
-              navigate('/income')
+              navigate('/dashboard')
   
             } else{
                 

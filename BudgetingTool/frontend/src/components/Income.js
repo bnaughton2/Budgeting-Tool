@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import {TextField, Button, Grid, Typography, RadioGroup, FormControlLabel, Checkbox } from "@material-ui/core";
 import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions} from "@material-ui/core";
@@ -13,7 +13,7 @@ function Income(){
     const [columns, setColums] = useState([
       { field: 'incomeId', headerName: 'ID', width: 1, hide:true },
       { field: 'income', headerName: 'Income', minWidth: 250, flex: 1},
-      { field: 'amount', headerName: 'Amount', minWidth: 150, flex: 1, align: "center", headerAlign: "center" },
+      { field: 'amount', headerName: 'Amount ($)', minWidth: 150, flex: 1, align: "center", headerAlign: "center" },
       { field: 'isRecurring', headerName: 'Recurs Monthly', minWidth: 150, flex: 1, align: "center", headerAlign: "center" },
       { field: 'date', headerName: 'Date', minWidth: 150, flex: 1, align: "center", headerAlign: "center" }
     ]);
@@ -33,7 +33,7 @@ function Income(){
 
     const useStyles = makeStyles({
       dataGrid: {
-        background: "linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)",
+        background: "linear-gradient(45deg, #42d796 30%, #50bfbf 90%)",
         borderRadius: 3,
         border: 0,
         color: "white",
@@ -83,6 +83,16 @@ function Income(){
         
       };
 
+      // const handleDelete = () => {
+      //   const requestOptions = {
+      //     method: 'DELETE',
+      //     headers: {'Content-Type': 'application/json'},
+      //     body: JSON.stringify({
+      //         incomeId: income,
+      //     })
+      // };
+      // };
+
       const handleChecked = (event) => {
         setChecked(event.target.checked);
       };
@@ -95,10 +105,20 @@ function Income(){
         setAmount(event.target.value);
       };
 
+      function currentlySelected(selection){
+        selected.current = selection;
+        console.log(selection);
+      }
+
     return(
         <Grid container spacing={1} align="center">
-            <Grid item xs={12}>
-                  <Button variant="contained" color="primary" onClick={handleClickOpen}>Add an Income</Button>
+            <Grid container direction={'row'} align="center">
+              <Grid item xs={6}>
+                <Button variant="contained" color="primary" onClick={handleClickOpen}>Add an Income</Button>
+              </Grid>
+              <Grid item xs={6}>
+                <Button variant="contained" color="secondary" onClick={handleClickOpen}>Delete row</Button>
+              </Grid>
                   <Dialog open={isOpen} onClose={handleClickClose}>
                         <DialogTitle>Add Income</DialogTitle>
                         <DialogContent>
@@ -142,7 +162,7 @@ function Income(){
                         <Button onClick={handleClickClose}>Cancel</Button>
                         <Button onClick={handleSubmit}>Submit</Button>
                         </DialogActions>
-                    </Dialog>
+                  </Dialog>
               </Grid>
               <Grid item xs={12}>
                   <DataGrid
@@ -150,31 +170,13 @@ function Income(){
                 columns={columns}
                 autoHeight={true}
                 disableExtendRowFullWidth={false}
-                disableSelectionOnClick={true}
+                disableSelectionOnClick={false}
                 pageSize={10}
                 rowsPerPageOptions={[10]}
+                onSelectionChange={currentlySelected}
                 getRowId={(row) => row.incomeId}
                 id="incomeId"
                 className={classes.dataGrid}
-                // sx={
-                //   {
-                   
-                //     // "& 	.MuiDataGrid-virtualScrollerContent": {
-                //     //   backgroundColor: "rgba(235, 235, 235, .7)"
-                //     // },
-                //     // "& .MuiDataGrid-columnHeaders": {
-                //     //   backgroundColor: "rgba(235, 235, 235, .7)",
-                //     //   borderColor: "10px solid black",
-                //     //   fontSize: 16
-                //     // },
-                //     // "& .MuiDataGrid-footerContainer": {
-                //     //   backgroundColor: "rgba(235, 235, 235, .7)",
-                //     // },
-                //     // "& 	.MuiDataGrid-row": {
-                //     //   borderColor: "10px solid black",
-                //     // },
-                //   }		
-                // }
                 />
               
               </Grid>

@@ -39,7 +39,7 @@ function Bill(){
 
     const useStyles = makeStyles({
       dataGrid: {
-        background: "linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)",
+        background: "linear-gradient(45deg, #42d796 30%, #50bfbf 90%)",
         borderRadius: 3,
         border: 0,
         color: "white",
@@ -107,8 +107,13 @@ function Bill(){
 
     return(
         <Grid container spacing={1} align="center">
-            <Grid item xs={12}>
-                  <Button variant="contained" color="primary" onClick={handleClickOpen}>Add a Bill</Button>
+            <Grid container direction={'row'} align="center">
+                <Grid item xs={6}>
+                  <Button variant="contained" color="primary" onClick={handleClickOpen}>Add an Bill</Button>
+                </Grid>
+                <Grid item xs={6}>
+                  <Button variant="contained" color="secondary" onClick={handleClickOpen}>Delete row</Button>
+                </Grid>
                   <Dialog open={isOpen} onClose={handleClickClose}>
                         <DialogTitle>Add Bill</DialogTitle>
                         <DialogContent>
