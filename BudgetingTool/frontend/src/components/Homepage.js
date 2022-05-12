@@ -15,7 +15,7 @@ function Homepage(){
                 <Navbar />
             </div>
             <Routes>
-                <Route path='/' element={<div className='center'><p>Homepage</p></div>}></Route>
+                <Route path='/' element={<div className='center'><Login /></div>}></Route>
                 <Route path='/income' element={<div className='center'><Income /></div>}></Route>
                 <Route path='/login' element={<div className='center'><Login /></div>}></Route>
                 <Route path='/signup' element={<div className='center'><Signup /></div>}></Route>
