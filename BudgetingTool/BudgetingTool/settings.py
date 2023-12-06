@@ -80,10 +80,10 @@ WSGI_APPLICATION = 'BudgetingTool.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'Budgeting_Tool',
-        'USER': 'admin',
-        'PASSWORD': '2Rx7f8RwMn',
-        'HOST': 'budgeting-tool-db.cd7wgmdfoskl.us-east-2.rds.amazonaws.com',
+        'NAME': 'BudgetingTool',
+        'USER': 'budget',
+        'PASSWORD': 'password',
+        'HOST': 'localhost',
         'PORT': '3306',
     }
 }
